@@ -41,7 +41,6 @@ import net.sf.fmj.utility.LoggerSingleton;
  */
 public final class Manager {
 
-
 	public static final int MAX_SECURITY = 1;
 
 	public static final int CACHING = 2;
@@ -60,37 +59,43 @@ public final class Manager {
 
 	}
 
-
-
 	public static DataSource createCloneableDataSource(DataSource source) {
 		if (source instanceof SourceCloneable)
 			return source;
 
 		if (source instanceof PushBufferDataSource) {
 			if (source instanceof CaptureDevice)
-				return new CloneableCaptureDevicePushBufferDataSource((PushBufferDataSource) source);
+				return new CloneableCaptureDevicePushBufferDataSource(
+						(PushBufferDataSource) source);
 			else
-				return new CloneablePushBufferDataSource((PushBufferDataSource) source);
+				return new CloneablePushBufferDataSource(
+						(PushBufferDataSource) source);
 		} else if (source instanceof PullBufferDataSource) {
 			if (source instanceof CaptureDevice)
-				return new CloneableCaptureDevicePullBufferDataSource((PullBufferDataSource) source);
+				return new CloneableCaptureDevicePullBufferDataSource(
+						(PullBufferDataSource) source);
 			else
-				return new CloneablePullBufferDataSource((PullBufferDataSource) source);
+				return new CloneablePullBufferDataSource(
+						(PullBufferDataSource) source);
 		} else if (source instanceof PushDataSource) {
 			if (source instanceof CaptureDevice)
-				return new CloneableCaptureDevicePushDataSource((PushDataSource) source);
+				return new CloneableCaptureDevicePushDataSource(
+						(PushDataSource) source);
 			else
 				return new CloneablePushDataSource((PushDataSource) source);
 		} else if (source instanceof PullDataSource) {
 			if (source instanceof CaptureDevice)
-				return new CloneableCaptureDevicePullDataSource((PullDataSource) source);
+				return new CloneableCaptureDevicePullDataSource(
+						(PullDataSource) source);
 			else
 				return new CloneablePullDataSource((PullDataSource) source);
 		} else
-			throw new IllegalArgumentException("Unknown or unsupported DataSource type: " + source);
+			throw new IllegalArgumentException(
+					"Unknown or unsupported DataSource type: " + source);
 	}
 
-	public static DataSink createDataSink(DataSource datasource, MediaLocator destLocator) throws NoDataSinkException {
+	public static DataSink createDataSink(DataSource datasource,
+			MediaLocator destLocator) throws NoDataSinkException {
 		// final String protocol = destLocator.getProtocol();
 		//
 		// for (String handlerClassName : getDataSinkClassList(protocol)) {
@@ -190,15 +195,26 @@ public final class Manager {
 	// accepted by the Handler. So createPlayer(createDataSource(MediaLocator))
 	// is not equivalent to
 	// createPlayer(MediaLocator)
-	public static DataSource createDataSource(MediaLocator sourceLocator) throws java.io.IOException, NoDataSourceException {
+	public static DataSource createDataSource(MediaLocator sourceLocator)
+			throws java.io.IOException, NoDataSourceException {
 		final String protocol = sourceLocator.getProtocol();
 		DataSource dataSource = null;
 		if (protocol.equals("wasapi")) {
 			dataSource = new org.jitsi.impl.neomedia.jmfext.media.protocol.wasapi.DataSource();
 		} else if (protocol.equals("directshow")) {
 			dataSource = new org.jitsi.impl.neomedia.jmfext.media.protocol.directshow.DataSource();
-
+		} else if (protocol.equals("audiosilence")) {
+			dataSource = new org.jitsi.impl.neomedia.jmfext.media.protocol.audiosilence.DataSource();
+		} else if (protocol.equals("greyfading")) {
+			dataSource = new org.jitsi.impl.neomedia.jmfext.media.protocol.greyfading.DataSource();
+		} else if (protocol.equals("portaudio")) {
+			dataSource = new org.jitsi.impl.neomedia.jmfext.media.protocol.portaudio.DataSource();
+		} else if (protocol.equals("pulseaudio")) {
+			dataSource = new org.jitsi.impl.neomedia.jmfext.media.protocol.pulseaudio.DataSource();
+		} else if (protocol.equals("video4linux2")) {
+			dataSource = new org.jitsi.impl.neomedia.jmfext.media.protocol.video4linux2.DataSource();
 		}
+
 		if (dataSource != null) {
 			dataSource.setLocator(sourceLocator);
 			dataSource.connect();
@@ -206,12 +222,12 @@ public final class Manager {
 		return dataSource;
 	}
 
-	public static Processor createProcessor(DataSource source) throws IncompatibleSourceException, IOException {
+	public static Processor createProcessor(DataSource source)
+			throws IncompatibleSourceException, IOException {
 		net.sf.fmj.media.MediaProcessor handler = new net.sf.fmj.media.MediaProcessor();
 		handler.setSource(source);
 		return handler;
 	}
-
 
 	public static Object getHint(int hint) {
 		return hints.get(hint);

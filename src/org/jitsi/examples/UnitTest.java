@@ -2,10 +2,10 @@ package org.jitsi.examples;
 
 public class UnitTest 
 {
-	public static final String audioEncoding = "silk";
+	public static final String audioEncoding = "PCMU";
 	public static final String videoEncoding = "H264";
 	public static final double audioClockRate = 8000;
-	public static final byte audioPayloadType = 75;
+	public static final byte audioPayloadType = 73;
 	public static final byte videoPayloadType = 99;
 
 	/**
@@ -13,8 +13,8 @@ public class UnitTest
 	 * @throws Exception
 	 */
 	public static void main(String[] args) throws Exception {
-		final String localhost = "192.168.128.104";
-		final String remotehost = "192.168.128.104";
+		final String localhost = "192.168.0.154";
+		final String remotehost = "192.168.0.154";
 		new Thread() {
 			public void run() {
 				try {
