@@ -291,6 +291,7 @@ public class AVReceive2 {
 
 	public static void Play(Player playback) {
 		// TODO Auto-generated method stub
+		try{
 		System.out.println("vide show!!!");
 		Component comp = playback.getVisualComponent();
 
@@ -300,6 +301,10 @@ public class AVReceive2 {
 			f.setSize(640, 480);
 			f.setVisible(true);
 			f.setAlwaysOnTop(true);
+		}
+		}catch(Exception ex)
+		{
+			ex.printStackTrace();
 		}
 	}
 }

@@ -36,6 +36,7 @@ public class RegistryDefaults {
 	 */
 	public static List<Object> plugInList() {
 		final List<Object> result = new ArrayList<Object>();
+		result.add(new PlugInInfo(net.sf.fmj.media.parser.RawPullBufferParser.class.getName(), new Format[] { new ContentDescriptor("raw"), }, new Format[] {}, javax.media.PlugInManager.DEMULTIPLEXER));
 		result.add(new PlugInInfo(net.sf.fmj.media.parser.RawPushBufferParser.class.getName(), new Format[] { new ContentDescriptor("raw"), }, new Format[] {}, javax.media.PlugInManager.DEMULTIPLEXER));
 		result.add(net.sf.fmj.media.codec.audio.ulaw.Decoder.class.getName());
 		result.add(net.sf.fmj.media.codec.audio.ulaw.Encoder.class.getName());
